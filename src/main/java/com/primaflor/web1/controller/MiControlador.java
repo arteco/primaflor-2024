@@ -1,6 +1,7 @@
 package com.primaflor.web1.controller;
 
 import com.primaflor.web1.dto.Persona;
+import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ public class MiControlador {
 	@GetMapping("/")
 	public String index() {
 
-		return "Hello World";
+		return "index";
 	}
 
 	@GetMapping("/test")
