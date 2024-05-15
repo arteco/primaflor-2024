@@ -9,6 +9,8 @@ import org.springframework.util.Assert;
 
 public class PruebaSimpleTest {
 
+
+
 	@Test
 	public void verificarListaInicial() {
 		// inicialización
