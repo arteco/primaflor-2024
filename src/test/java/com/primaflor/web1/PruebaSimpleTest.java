@@ -21,6 +21,19 @@ public class PruebaSimpleTest {
 		Assert.isTrue(personas.size() == 2, "Número de personas incorrecto");
 	}
 
+
+	@Test
+	public void verificarPersona1() {
+		// inicialización
+		PersonaService personaService = new PersonaService();
+
+		// ejecución de la lógica
+		Persona p = personaService.getPersona(1).orElseThrow();
+
+		// verificación
+		Assert.isTrue(p.getId().equals(1), "Se esperaba la persona con id 1");
+	}
+
 	@Test
 	public void verificarLanzadoExcepcion() {
 		// inicialización
