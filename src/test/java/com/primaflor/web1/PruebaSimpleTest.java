@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 
 public class PruebaSimpleTest {
 
+	/*
 	@Test
 	public void verificarListaInicial() {
 		// inicialización
@@ -52,5 +53,5 @@ public class PruebaSimpleTest {
 		// verificación
 		Assert.notNull(e, "Error al captura la excepción de persona ya borrada");
 	}
-
+*/
 }

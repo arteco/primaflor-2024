@@ -1,72 +1,63 @@
 package com.primaflor.web1.service;
 
 
-import com.primaflor.web1.dto.Persona;
-import com.primaflor.web1.error.PersonaError;
-import java.util.ArrayList;
+import com.primaflor.web1.model.PersonaEntity;
+import com.primaflor.web1.repository.PersonaRepository;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
-import lombok.Getter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PersonaService {
 
-	@Getter
-	private final List<Persona> personas = new ArrayList<>();
-	private Integer id = 1;
+	// Acceder diractamente a las funcionalidade de JPA
+	private final EntityManager entityManager;
+
+	private final PersonaRepository personaRepository;
 
 
-	public PersonaService() {
+	public PersonaService(EntityManager entityManager, PersonaRepository personaRepository) {
 
-		personas.add(new Persona(id++, "Ramón", 43));
-		personas.add(new Persona(id++, "Pepe", 47));
+		this.entityManager = entityManager;
+		this.personaRepository = personaRepository;
+	}
+
+	@PostConstruct
+	@Transactional
+	public void init() {
+
+		this.savePersona(new PersonaEntity(null, "Ramón", 43));
+		this.savePersona(new PersonaEntity(null, "Pepe", 47));
+	}
+
+	@PreDestroy
+	public void destroy() {
+
+	}
+
+	public List<PersonaEntity> getPersonas() {
+
+		return this.personaRepository.findAll();
 	}
 
 
-	public Optional<Persona> getPersona(Integer idPersona) {
-
-		Persona result = null;
-		for (Persona persona : personas) {
-			if (persona.getId().equals(idPersona)) {
-				result = persona;
-				break;
-			}
-		}
-		return Optional.ofNullable(result);
+	public Optional<PersonaEntity> getPersona(Integer idPersona) {
+		return this.personaRepository.findById(idPersona);
 	}
 
-	public Optional<Persona> deletePersona(Integer idPersona) {
+	public Optional<PersonaEntity> deletePersona(Integer idPersona) {
 
-		Optional<Persona> p = getPersona(idPersona);
-		//p.ifPresent(persona -> personas.remove(persona));
-		if (p.isPresent()) {
-			personas.remove(p.get());
-		}
-		return p;
+		Optional<PersonaEntity> personaOptional = getPersona(idPersona);
+		personaOptional.ifPresent(persona -> this.personaRepository.delete(persona));
+		return personaOptional;
 	}
 
-	public Persona savePersona(Persona persona) throws PersonaError {
-		Persona result = null;
-		// si existe
-		if (persona.getId() != null) {
-			Optional<Persona> optional = getPersona(persona.getId());
-			if (optional.isPresent()) {
-				// actualizar la persona
-				Persona dbPersona = optional.get();
-				dbPersona.setNombre(persona.getNombre());
-				dbPersona.setEdad(persona.getEdad());
-				// el update no hace falta porque ya está en la lista de memoria.
-				result = dbPersona;
-			} else {
-				throw new PersonaError("La persona ya no existe");
-			}
-		} else {
-			persona.setId(id++);
-			personas.add(persona);
-			result = persona;
-			// aquí haríamos el insert
-		}
-		return result;
+	public PersonaEntity savePersona(PersonaEntity persona) {
+
+		return this.personaRepository.save(persona);
 	}
 }

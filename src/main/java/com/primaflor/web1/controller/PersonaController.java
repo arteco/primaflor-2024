@@ -1,7 +1,8 @@
 package com.primaflor.web1.controller;
 
 import com.primaflor.web1.dto.Persona;
-import com.primaflor.web1.error.PersonaError;
+import com.primaflor.web1.model.DireccionEntity;
+import com.primaflor.web1.model.PersonaEntity;
 import com.primaflor.web1.service.PersonaService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -32,15 +34,33 @@ public class PersonaController {
 	@GetMapping("/personas")
 	public List<Persona> getPersonas() {
 
-		return personaService.getPersonas();
+		return personaService.getPersonas().stream()
+			.map(this::map)
+			.toList();
+	}
+
+	private Persona map(PersonaEntity personaEntity) {
+
+		return new Persona(personaEntity.getId(),
+						   personaEntity.getNombre(),
+						   personaEntity.getEdad());
+	}
+
+	private PersonaEntity map(Persona persona) {
+
+		return new PersonaEntity(persona.getId(),
+								 persona.getNombre(),
+								 persona.getEdad());
 	}
 
 	@GetMapping("/personas/{id}")
 	public ResponseEntity<Persona> getPersona(@PathVariable("id") Integer idPersona) {
 
-		Optional<Persona> personaOpt = personaService.getPersona(idPersona);
+		Optional<PersonaEntity> personaOpt = personaService.getPersona(idPersona);
 		if (personaOpt.isPresent()) {
-			return ResponseEntity.ok(personaOpt.get());
+			return ResponseEntity.ok(personaOpt
+										 .map(this::map)
+										 .get());
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -48,9 +68,11 @@ public class PersonaController {
 	@DeleteMapping("/personas/{id}")
 	public ResponseEntity<Persona> deletePersona(@PathVariable("id") Integer idPersona) {
 
-		Optional<Persona> personaOpt = personaService.deletePersona(idPersona);
+		Optional<PersonaEntity> personaOpt = personaService.deletePersona(idPersona);
 		if (personaOpt.isPresent()) {
-			return ResponseEntity.ok(personaOpt.get());
+			return ResponseEntity.ok(personaOpt
+										 .map(this::map)
+										 .get());
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -62,13 +84,20 @@ public class PersonaController {
 		if (bindingResult.hasErrors()) {
 			return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
 		}
-		try {
-			Persona dbPersona = personaService.savePersona(persona);
-			return ResponseEntity.ok(dbPersona);
-		} catch (PersonaError e) {
-			log.error(e.getMessage(), e);
-			log.warn("Ha ocurrido un error al guardar el persona: " + e.getMessage());
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		PersonaEntity p = map(persona);
+		PersonaEntity dbPersona = personaService.savePersona(p);
+		return ResponseEntity.ok(map(dbPersona));
+	}
+
+	@GetMapping("/personas/{id}/direcciones")
+	public Persona getPersonaDirecciones(@PathVariable("id") Integer idPersona) {
+
+		Optional<PersonaEntity> persona = personaService.getPersona(idPersona);
+		persona.ifPresent(personaEntity -> {
+			List<DireccionEntity> direcciones = personaEntity.getDirecciones();
+			System.out.println(direcciones);
+		});
+		return null;
 	}
 }
