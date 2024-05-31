@@ -1,27 +1,26 @@
-import {useState} from 'react'
 import './App.css'
-import Logos from "./componentes/Logos.tsx";
-import Titulo from "./componentes/Titulo.tsx";
+import ListarPersonas from "./componentes/ListarPersonas.tsx";
+import FormularioPersona from "./componentes/FormularioPersona.tsx";
+import {useState} from "react";
 
 function App() {
-	const [count, setCount] = useState(0)
+
+	const [renderCounter, setRenderCounter] = useState<number>(0)
 
 	return (
 		<>
-			<Logos/>
-			<Titulo texto={"Vite + React"}></Titulo>
+			<table style={{width: "100%"}}>
+				<tr>
+					<td width={"50%"}>
+						<ListarPersonas renderCounter={renderCounter}/>
+					</td>
+					<td>
+						<FormularioPersona renderCounter={renderCounter} setRenderCounter={setRenderCounter}/>
+					</td>
+				</tr>
+			</table>
+			counter : {renderCounter}
 
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">
-				Click on the Vite and React logos to learn more
-			</p>
 		</>
 	)
 }

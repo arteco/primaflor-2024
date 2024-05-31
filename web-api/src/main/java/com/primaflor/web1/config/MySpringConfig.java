@@ -21,7 +21,7 @@ public class MySpringConfig {
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(true);
+		config.setAllowCredentials(false);
 		config.addAllowedOrigin("*"); // Permite todas las orígenes
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
