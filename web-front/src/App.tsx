@@ -19,6 +19,9 @@ function App() {
 					</td>
 				</tr>
 			</table>
+
+			<hr style={{marginTop:"3em"}}/>
+
 			counter : {renderCounter}
 
 		</>
