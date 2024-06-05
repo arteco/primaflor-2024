@@ -10,6 +10,7 @@ function App() {
 	return (
 		<>
 			<table style={{width: "100%"}}>
+				<tbody>
 				<tr>
 					<td width={"50%"}>
 						<ListarPersonas renderCounter={renderCounter}/>
@@ -18,6 +19,7 @@ function App() {
 						<FormularioPersona renderCounter={renderCounter} setRenderCounter={setRenderCounter}/>
 					</td>
 				</tr>
+				</tbody>
 			</table>
 
 			<hr style={{marginTop:"3em"}}/>

@@ -31,8 +31,8 @@ export default ({renderCounter}: ListPersonasProp) => {
 				actualizarPersonas();
 			}}>actualizar</button>
 			<ul>
-				{personas.map((persona) => (
-					<li>{persona.nombre}</li>
+				{personas.map((persona,i) => (
+					<li key={i}>{persona.nombre}</li>
 				))}
 			</ul>
 			{personas.length == 0 && (
