@@ -13,7 +13,7 @@ export default ({renderCounter, setRenderCounter, idPersona}: FormPersonaProp) =
 
 	const personaController = usePersonaController();
 
-	const [id, setId] = useState<number | string | undefined>();
+	const [id, setId] = useState<number | undefined>();
 	const [nombre, setNombre] = useState<string>('')
 	const [edad, setEdad] = useState<number>(0);
 
@@ -71,7 +71,7 @@ export default ({renderCounter, setRenderCounter, idPersona}: FormPersonaProp) =
 				</button>
 				<button type={"button"} style={{marginLeft:"1em"}}
 					onClick={_ =>{
-						setId('');
+						setId(('' as any) as number);
 						setNombre('')
 						setEdad(0);
 					}}>
