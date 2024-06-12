@@ -1,0 +1,25 @@
+html{
+	font-family: sans-serif;
+}
+
+body{
+	padding: 0;
+	margin: 0;
+}
+
+.contenedor{
+	display: flex;
+}
+
+.columna-1 {
+	background-color: #AAA;
+	padding: 2em;
+	margin-right: 1em;
+	flex-grow: 2;
+}
+
+.columna-2 {
+	background-color: rgba(98,167,182,0.37);
+	padding: 2em;
+	flex-grow: 2;
+}
