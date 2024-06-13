@@ -1,5 +1,5 @@
 # primaflor-2024
-Repositorio de formación para práctica de Springboot y React para Primaflor 2024
+Repositorio de formación para práctica de Springboot y React para Primaflor 2024 y de git
 
 ## Requisitos
 
