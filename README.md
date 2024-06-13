@@ -1,6 +1,8 @@
 # primaflor-2024
 Repositorio de formación para práctica de Springboot y React
 
+Práctica de microservicios son Springboot y Open Api
+
 ## Requisitos
 
 * [JDK 21](https://adoptium.net/es/)
